@@ -1,0 +1,18 @@
+{
+    "customers": [
+        {
+            "name": "Jon Doe",
+            "phone" : "4564564567",
+            "address": "458 Go Street",
+            "memebership": "Silver",
+            "id": 1
+        },
+        {
+            "name": "Rick Gremy",
+            "phone" : "895248854",
+            "address": "785 Flower Street",
+            "memebership": "Gold",
+            "id": 2
+        }
+    ]
+}
