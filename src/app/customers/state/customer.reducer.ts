@@ -1,48 +1,30 @@
 import { Customer } from "../customer.model";
-import * as customerAction from './customer.action';
+import * as customerActionTypes from './customer.action';
 import { createReducer, on } from '@ngrx/store';
+import { createEntityAdapter, EntityAdapter, EntityState } from "@ngrx/entity";
 
-export interface CustomerState {
-    customers: Customer[],
-    loading: boolean,
-    loaded: boolean,
+export interface CustomerState extends EntityState<Customer> {
+    customerLoading: boolean,
+    customerLoaded: boolean,
     error: string
 }
 
-export const initialState: CustomerState = {
-    customers: [],
-    loading: true,
-    loaded: false,
-    error: ""
-}
+export const customerAdapter: EntityAdapter<Customer> = createEntityAdapter<Customer>();
 
-const _customerReducer = createReducer(
+export const initialState = customerAdapter.getInitialState({
+    customerLoading: false,
+    customerLoaded: false,
+    error: ""
+});
+
+export const customerReducer = createReducer(
     initialState,
-    on(customerAction.loadCustomers, (state) => {
-        return {
-            ...state,
-            loading: true
-        }
-    }),
-    on(customerAction.loadCustomersSuccess, (state, action: any) => {
-        return {
-            ...state,
-            loading: false,
-            loaded: true,
-            customers: action.payload
-        }
-    }),
-    on(customerAction.loadCustomersFails, (state, action: any) => {
-        return {
-            ...state,
-            customers: [],
-            loading: false,
-            loaded: false,
-            error: action.payload
-        }
+    on(customerActionTypes.loadCustomersSuccess, (state, { customers }) => {
+        return customerAdapter.addMany(
+            customers,
+            { ...state, customerLoaded: true, customerLoading: false, error: "" }
+        )
     })
 );
 
-export function customerReducer(state, action) {
-    return _customerReducer(state, action);
-}
+export const { selectAll, selectIds } = customerAdapter.getSelectors();

@@ -1,6 +1,15 @@
+import { createAction, props } from '@ngrx/store';
 import { Customer } from '../customer.model';
-import { createAction } from '@ngrx/store';
 
-export const loadCustomers = createAction('[Customer] Load Customers');
-export const loadCustomersSuccess = createAction('[Customer] Load Customers Success');
+export const loadCustomers = createAction('[Customer] Load Customers via service');
+export const loadCustomersSuccess = createAction(
+    '[Customer] Customers Loaded Successfully', 
+    props<{customers:Customer[]}>()
+);
 export const loadCustomersFails = createAction('[Customer] Load Customer Fail');
+
+export const customerActionTypes = {
+    loadCustomers,
+    loadCustomersSuccess,
+    loadCustomersFails
+}
