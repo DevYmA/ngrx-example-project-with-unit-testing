@@ -3,5 +3,5 @@ export interface Customer {
     name: string;
     phone: string;
     address: string;
-    membership: string;
+    memebership: string;
 }
